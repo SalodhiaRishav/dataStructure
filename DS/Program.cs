@@ -20,7 +20,8 @@ namespace DS
             //  MinimumJump.main();
             // FirstNegativeInteger.main();
             //UpperBoundLowerBound.main();
-            MaximumCircularSum.main();
+            //MaximumCircularSum.main();
+            Histogram.main();
             Console.ReadKey();
         }
     }
