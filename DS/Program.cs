@@ -7,7 +7,7 @@ namespace DS
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Math.Pow(2,100));
+            // Console.WriteLine(Math.Pow(2,100));
             //StockSpan.main();
             //RainWaterTrapping.main();
             //CheckDuplicateParanthesis.main();
@@ -25,6 +25,7 @@ namespace DS
             // Histogram.main();
             //MaximumLengthBiotonicArray.main();
             //OptimalGameStrategy.main();
+            CountNumberOfBinaryStrings.main();
             Console.ReadKey();
         }
     }
