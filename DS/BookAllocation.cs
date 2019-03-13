@@ -4,7 +4,13 @@ using System.Text;
 
 namespace DS
 {
-    class BookAllocation
+    public class BookAllocation
     {
+        public static void main()
+        {
+
+        }
+
+      
     }
 }
