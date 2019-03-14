@@ -8,62 +8,70 @@ namespace DS
     {
         public static void main()
         {
-            char[] input = Console.ReadLine().ToCharArray();
-            List<string> answerList = GetPermutationString(input, 0);
-            //for(int a=0;a<answerList.Count;++a)
-            //{
-            //    Console.WriteLine(answerList[a]);
-            //}
+            string input = Console.ReadLine();
+            List<string> answerList = GetStrings(input);
+            int end = answerList.Count - 1;
+            string answer = "[";
+            for (int a = 0; a < end; ++a)
+            {
+                //Console.WriteLine(answerList[a]);
+                answer = answer + answerList[a] + ", ";
+            }
+            answer = answer + answerList[end]+"]";
+            Console.WriteLine(answer);
         }
 
-        public static List<string> GetPermutationString(char[] input, long startIdx)
+
+        public static List<string> GetStrings(string inputNumber)
         {
-
-            List<string> answer = new List<string>() ;
-            long length = input.Length;
-            if(startIdx>=length)
+            long length = inputNumber.Length;
+            if(length==1)
             {
-                return null;
+                List<string> answerString = new List<string>();
+                int number = int.Parse(inputNumber);
+                answerString.Add(numberToString(int.Parse(inputNumber)));
+                return answerString;
             }
-            if ((startIdx+1) >= length)
-            {
-                string numbe =numberToString(int.Parse(input[startIdx].ToString()));
-                answer.Add(numbe);
-                return answer;
-            }
-            List<string> firstList = GetPermutationString(input, startIdx + 1);
 
-            string firstletter=numberToString(int.Parse(input[startIdx].ToString()));
-            if(firstList!=null)
+            if(length==2)
             {
-                long endIdx = firstList.Count;
-                for (int a = 0; a < endIdx; ++a)
+                List<string> answerString = new List<string>();
+                string lastString = numberToString(int.Parse(inputNumber[0].ToString()));
+                lastString = lastString + numberToString(int.Parse(inputNumber[1].ToString()));
+                answerString.Add(lastString);
+                int number = int.Parse(inputNumber);
+                if(number<27)
                 {
-                    answer.Add(firstletter + firstList[a]);
-                    Console.WriteLine(firstletter + firstList[a]);
+                    answerString.Add(numberToString(number));                 
+                }
+
+                return answerString;
+
+            }
+            List<string> answerList = new List<string>();
+           int firstNumber= int.Parse(inputNumber[0].ToString());
+            string firstString = numberToString(firstNumber);
+            string stringLeft = inputNumber.Substring(1);
+            List<string> nextList = GetStrings(stringLeft);
+            for(int idx=0;idx<nextList.Count;++idx)
+            {
+               string toAdd= firstString + nextList[idx];
+                answerList.Add(toAdd);
+            }
+            nextList.Clear();
+            int secondNumber = firstNumber*10 + int.Parse(inputNumber[1].ToString());
+            if(secondNumber<27)
+            {
+                string secondString = numberToString(secondNumber);
+                stringLeft = inputNumber.Substring(2);
+                nextList = GetStrings(stringLeft);
+                for (int idx = 0; idx < nextList.Count; ++idx)
+                {
+                    string toAdd = secondString + nextList[idx];
+                    answerList.Add(toAdd);
                 }
             }
-          
-            long number = (long.Parse(input[0].ToString()) * 10) + long.Parse(input[1].ToString());
-            if (number < 27)
-            {
-                firstletter = numberToString((int)number);
-                List<string> secondList = GetPermutationString(input, startIdx + 2);
-                if(secondList!=null)
-                {
-                    long endIdx2 = secondList.Count;
-                    for (int a = 0; a < endIdx2; ++a)
-                    {
-                        answer.Add(firstletter + secondList[a]);
-                        Console.WriteLine(firstletter + firstList[a]);
-                    }
-                }
-              
-
-            }
-            return answer;
-
-
+            return answerList;
         }
 
         public static string numberToString(int number)
@@ -71,6 +79,8 @@ namespace DS
             char character = (char)(96 + number);
             return character.ToString();
         }
+
+
     }
 
     

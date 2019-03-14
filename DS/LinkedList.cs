@@ -22,17 +22,17 @@ namespace DS
 
             // Node newHead = customLinkedList.ReverseLinkedList(customLinkedList.Head);
             //Node newHead = customLinkedList.ReverseUsingRecursionData(customLinkedList.Head);
-            Node newHead = customLinkedList.MergeSort(customLinkedList.Head);
+            MyTreeNode newHead = customLinkedList.MergeSort(customLinkedList.Head);
             customLinkedList.ShowLinkedList(newHead);
 
            
         }
     }
-    public class Node
+    public class MyTreeNode
     {
-        public Node Next;
+        public MyTreeNode Next;
         public int Value;
-        public Node(int data)
+        public MyTreeNode(int data)
         {
             Next = null;
             Value = data;
@@ -41,16 +41,16 @@ namespace DS
 
     public class CustomLinkedList
     {
-        public Node Head;
+        public MyTreeNode Head;
         public static int Count;
-        public Node Tail;
+        public MyTreeNode Tail;
         public CustomLinkedList()
         {
             Head = null;
         }
         public void Add(int data)
         {
-            Node node = new Node(data);
+            MyTreeNode node = new MyTreeNode(data);
             if(Head==null)
             {
                 Head = node;
@@ -59,7 +59,7 @@ namespace DS
             }
             else
             {
-                Node curNode = Head;
+                MyTreeNode curNode = Head;
                 while(curNode.Next!=null)
                 {
                     curNode = curNode.Next;
@@ -71,9 +71,9 @@ namespace DS
 
         }
 
-        public void ShowLinkedList(Node head)
+        public void ShowLinkedList(MyTreeNode head)
         {
-            Node curNode = head;
+            MyTreeNode curNode = head;
             while(curNode!=null)
             {
                 Console.Write("{0} ",curNode.Value);
@@ -83,7 +83,7 @@ namespace DS
 
 
 
-        public Node ReverseLinkedList(Node head)
+        public MyTreeNode ReverseLinkedList(MyTreeNode head)
         {
 
             if(head.Next==null)
@@ -91,19 +91,19 @@ namespace DS
                 return head;
             }
          
-            Node newHead = ReverseLinkedList(head.Next);
+            MyTreeNode newHead = ReverseLinkedList(head.Next);
             head.Next.Next = head;
             head.Next = null;
             return newHead;
 
         }
 
-        public Node KAppend(Node head,int numberOfElementsToAppend)
+        public MyTreeNode KAppend(MyTreeNode head,int numberOfElementsToAppend)
         {
             int tempCount = Count - numberOfElementsToAppend;
             Tail.Next = head;
             
-            Node curNode = head;
+            MyTreeNode curNode = head;
             while(tempCount!=1)
             {
                 curNode = curNode.Next;
@@ -117,7 +117,7 @@ namespace DS
             return head;
         }
 
-        public Node ReverseUsingRecursionData(Node head)
+        public MyTreeNode ReverseUsingRecursionData(MyTreeNode head)
         {
             if(head == null)
             {
@@ -128,7 +128,7 @@ namespace DS
                 return head;
             }
 
-            Node temp = ReverseUsingRecursionData(head.Next);
+            MyTreeNode temp = ReverseUsingRecursionData(head.Next);
             int tempdata = temp.Value;
             temp.Value = head.Value;
             head.Value = tempdata;
@@ -147,11 +147,11 @@ namespace DS
 
         }
 
-        public static Node FindMidNode(Node head)
+        public static MyTreeNode FindMidNode(MyTreeNode head)
         {
            
-            Node slowNode = head;
-            Node fastNode = head;
+            MyTreeNode slowNode = head;
+            MyTreeNode fastNode = head;
             while(fastNode.Next!=null&&fastNode.Next.Next!=null)
             {
                 fastNode = fastNode.Next.Next;
@@ -160,7 +160,7 @@ namespace DS
             return slowNode;
         }
 
-        public Node MergeSort(Node head)
+        public MyTreeNode MergeSort(MyTreeNode head)
 
         {
            if(head==null)
@@ -172,25 +172,25 @@ namespace DS
                 return head;
             }
 
-            Node midNode = FindMidNode(head);
-            Node nextHead = midNode.Next;
+            MyTreeNode midNode = FindMidNode(head);
+            MyTreeNode nextHead = midNode.Next;
             midNode.Next = null;
             
-            Node firstHead = MergeSort(head);
-            Node secondHead = MergeSort(nextHead);
-            Node newHead = MergeSortedArray(firstHead, secondHead);
+            MyTreeNode firstHead = MergeSort(head);
+            MyTreeNode secondHead = MergeSort(nextHead);
+            MyTreeNode newHead = MergeSortedArray(firstHead, secondHead);
             return newHead;
         }
 
-        public static Node MergeSortedArray(Node firstHead, Node secondHead)
+        public static MyTreeNode MergeSortedArray(MyTreeNode firstHead, MyTreeNode secondHead)
         {
-            Node head = null;
-            Node tail = null;
-            Node firstTempListCurNode = firstHead;
-            Node secondTempListCurNode = secondHead;
+            MyTreeNode head = null;
+            MyTreeNode tail = null;
+            MyTreeNode firstTempListCurNode = firstHead;
+            MyTreeNode secondTempListCurNode = secondHead;
             while(firstTempListCurNode!=null&&secondTempListCurNode!=null)
             {
-                Node minNode = null;
+                MyTreeNode minNode = null;
                if(firstTempListCurNode.Value<secondTempListCurNode.Value)
                 {
                     minNode = firstTempListCurNode;

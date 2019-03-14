@@ -1,4 +1,5 @@
 ﻿using System;
+using NDS;
 using System.Text;
 
 namespace DS
@@ -16,7 +17,7 @@ namespace DS
             //  ChewbaccaNumbers.main();
             // MaximumSubArray.main();
             // FormBiggestNumber.main();
-            // RecursionCodesOfTheString.main();
+            //RecursionCodesOfTheString.main();
             //Execute.main();
             //  MinimumJump.main();
             // FirstNegativeInteger.main();
@@ -25,7 +26,9 @@ namespace DS
             // Histogram.main();
             //MaximumLengthBiotonicArray.main();
             //OptimalGameStrategy.main();
-            CountNumberOfBinaryStrings.main();
+            //CountNumberOfBinaryStrings.main();
+            //LongestCommonSubSequence.main();
+            TreeProblems.main();
             Console.ReadKey();
         }
     }
