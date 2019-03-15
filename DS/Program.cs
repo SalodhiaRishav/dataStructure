@@ -28,7 +28,7 @@ namespace DS
             //OptimalGameStrategy.main();
             //CountNumberOfBinaryStrings.main();
             //LongestCommonSubSequence.main();
-            TreeProblems.main();
+            BinaryTree.main();
             Console.ReadKey();
         }
     }
