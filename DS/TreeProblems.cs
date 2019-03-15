@@ -23,18 +23,11 @@ namespace NDS
         public static void main()
         {
             BinaryTree treeOne = new BinaryTree();
-            treeOne.Root = treeOne.CreateTree(treeOne.Root);
-            BinaryTree treeTwo = new BinaryTree();
-            treeTwo.Root = treeTwo.CreateTree(treeTwo.Root);
+            treeOne.Root = treeOne.CreateTreeSecond(treeOne.Root);
+            treeOne.ZigZagTraversing(treeOne.Root);
+            
 
-            if(IsTwoTreeStructurallyIdentical(treeOne.Root,treeTwo.Root))
-            {
-                Console.WriteLine("true");
-            }
-            else
-            {
-                Console.WriteLine("false");
-            }
+           
           
         }
         public MyTreeNode Root;
@@ -239,6 +232,46 @@ namespace NDS
                 return true;
             }
             return false;
+        }
+
+        public MyTreeNode CreateTreeSecond(MyTreeNode root)
+        {
+            Queue<MyTreeNode> queue = new Queue<MyTreeNode>();
+            int data = 0;
+            if(root==null)
+            {
+                //  Console.WriteLine("Enter Root");
+                // data = int.Parse(Console.ReadLine());
+                data = int.Parse(inputString[count++]);
+                MyTreeNode curNode = new MyTreeNode();
+                curNode.Data = data;
+                root = curNode;
+            }
+            //Console.WriteLine("enter left");
+            data = int.Parse(inputString[count++]);
+            if (data!=-1)
+            {
+                MyTreeNode newNode = new MyTreeNode();
+                newNode.Data = data;
+                root.LeftChild = newNode;
+                queue.Enqueue(root.LeftChild);
+            }
+          //  Console.WriteLine("enter right"); 
+            data = int.Parse(inputString[count++]);
+            if (data!=-1)
+            {
+                MyTreeNode newNode = new MyTreeNode();
+                newNode.Data = data;
+                root.RightChild = newNode;
+                queue.Enqueue(root.RightChild);
+            }
+            while(queue.Count!=0)
+            {
+                MyTreeNode curRoot = queue.Dequeue();
+                CreateTreeSecond(curRoot);
+            }
+            return root;
+
         }
 
     }
