@@ -24,18 +24,20 @@ namespace NDS
         {
             BinaryTree treeOne = new BinaryTree();
             treeOne.Root = treeOne.CreateTreeSecond(treeOne.Root);
-            treeOne.ZigZagTraversing(treeOne.Root);
-            
-
-           
-          
+            ShowTopView(treeOne.Root);
+            //ShowLeftView(treeOne.Root);
+          //  ShowRightView(treeOne.Root);
+            //treeOne.ZigZagTraversing(treeOne.Root);
+                       
         }
         public MyTreeNode Root;
         public static string[] inputString;
         public static int count;
+        private static Queue<MyTreeNode> queue;
 
         public BinaryTree()
         {
+             queue = new Queue<MyTreeNode>();
             Root = null;
             count = 0;
             string input = Console.ReadLine();
@@ -236,7 +238,7 @@ namespace NDS
 
         public MyTreeNode CreateTreeSecond(MyTreeNode root)
         {
-            Queue<MyTreeNode> queue = new Queue<MyTreeNode>();
+            
             int data = 0;
             if(root==null)
             {
@@ -273,6 +275,124 @@ namespace NDS
             return root;
 
         }
+
+        public static void ShowLeftView(MyTreeNode root)
+        {
+            MyTreeNode markerNode = new MyTreeNode();
+            markerNode.Data = -1;
+            Queue<MyTreeNode> levelQueue = new Queue<MyTreeNode>();
+            if (root == null)
+            {
+                return;
+            }
+            levelQueue.Enqueue(root);
+            levelQueue.Enqueue(markerNode);
+
+            while (levelQueue.Count != 0)
+            {
+                MyTreeNode curNode = levelQueue.Dequeue();
+                if (levelQueue.Count == 0)
+                    break;
+
+                if (levelQueue.Peek().Data == -1)
+                {
+                    Console.Write($"{curNode.Data} ");
+                }
+                if (curNode.Data == -1)
+                {
+                    levelQueue.Enqueue(markerNode);
+                }
+                else
+                {
+                    if (curNode.RightChild != null)
+                    {
+                        levelQueue.Enqueue(curNode.RightChild);
+                    }
+                    if (curNode.LeftChild != null)
+                    {
+                        levelQueue.Enqueue(curNode.LeftChild);
+                    }
+                    
+
+                }
+            }
+            return;
+        }
+
+        public static void ShowRightView(MyTreeNode root)
+        {
+            MyTreeNode markerNode = new MyTreeNode();
+            markerNode.Data = -1;
+            Queue<MyTreeNode> levelQueue = new Queue<MyTreeNode>();
+            if(root==null)
+            {
+                return;
+            }
+            levelQueue.Enqueue(root);
+            levelQueue.Enqueue(markerNode);
+          
+            while(levelQueue.Count!=0)
+            {
+               MyTreeNode curNode = levelQueue.Dequeue();
+                if (levelQueue.Count == 0)
+                    break;
+
+                if(levelQueue.Peek().Data==-1)
+                {                    
+                    Console.Write($"{curNode.Data} ");
+                }
+                if(curNode.Data==-1)
+                {
+                    levelQueue.Enqueue(markerNode);
+                }
+                else
+                {
+                    if(curNode.LeftChild!=null)
+                    {
+                        levelQueue.Enqueue(curNode.LeftChild);
+                    }
+                    if(curNode.RightChild!=null)
+                    {
+                        levelQueue.Enqueue(curNode.RightChild);
+                    }
+                    
+                }
+            }
+            return;
+        }
+
+        public static void ShowTopView(MyTreeNode root)
+        {
+            if(root==null)
+            {
+                return ;
+            }
+
+            List<MyTreeNode> answerList = new List<MyTreeNode>();
+            MyTreeNode curNode = root;
+           
+            while(curNode!=null)
+            {
+                answerList.Add(curNode);
+                curNode = curNode.LeftChild;
+            }
+            answerList.Reverse();
+
+            curNode = root.RightChild;
+
+            while(curNode!=null)
+            {
+                answerList.Add(curNode);
+                curNode = curNode.RightChild;
+            }
+
+            foreach(MyTreeNode node in answerList)
+            {
+                Console.Write($"{node.Data} ");
+            }
+
+        }
+
 
     }
 
