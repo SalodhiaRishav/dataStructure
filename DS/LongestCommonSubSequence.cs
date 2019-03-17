@@ -18,102 +18,71 @@ namespace DS
         {
             long lengthOfFirstString = firstString.Length;
             long lengthOfSecondString = secondString.Length;
-            string[,] matrix = new string[lengthOfFirstString, lengthOfSecondString];
-
-            if(firstString[0]==secondString[0])
+            long rows = lengthOfFirstString + 1;
+            long columns = lengthOfSecondString + 1;
+            long[,] matrix = new long[rows,columns];
+            for(long idx=0;idx<rows;++idx)
             {
-                matrix[0, 0] = firstString[0].ToString();
+                matrix[idx,0] = 0;
             }
-            else
+            for (long idx = 0; idx < columns; ++idx)
             {
-                matrix[0, 0] = null;
+                matrix[0, idx] = 0;
             }
-
-            for(int column = 1;column<lengthOfSecondString;++column)
+            long rowIdx = 0;
+            long colIdx = 0;
+            for ( rowIdx=1;rowIdx<rows;++rowIdx)
             {
-                if(firstString[0]==secondString[column])
+                for(colIdx=1;colIdx<columns;++colIdx)
                 {
-                    matrix[0, column] = firstString[0].ToString();
-                }
-                else
-                {
-                    matrix[0, column] = matrix[0, column - 1];
-                }
-            }
-
-            for (int row = 1; row < lengthOfFirstString; ++row)
-            {
-                if (secondString[0] == firstString[row])
-                {
-                    matrix[row,0] = secondString[0].ToString();
-                }
-                else
-                {
-                    matrix[row,0] = matrix[row-1,0];
-                }
-            }
-
-            for (int row = 1; row < lengthOfFirstString; ++row)
-            {
-                for (int column = 1; column < lengthOfSecondString; ++column)
-                {
-                    if(firstString[row]==secondString[column])
+                    if(firstString[(int)rowIdx-1]==secondString[(int)colIdx-1])
                     {
-                        string toAttach = matrix[row - 1, column];
-                        if(toAttach==null)
-                        {
-                            matrix[row, column] = toAttach;
-                        }
-                        else
-                        {
-                            if(toAttach.Length<(column+1))
-                            {
-                                matrix[row, column] = matrix[row - 1, column] + firstString[row].ToString();
-                            }
-                            else
-                            {
-                                matrix[row, column] = toAttach;
-                            }
-                        }
-                        
+                        matrix[rowIdx,colIdx]=matrix[rowIdx - 1, colIdx - 1] + 1;
                     }
                     else
                     {
-                        int upperLength = 0;
-                        int leftLength = 0;
-                        if (matrix[row, column - 1] == null)
-                        {
-                            leftLength = 0;
-                        }
-                        else
-                        {
-                            leftLength = matrix[row, column - 1].Length;
-                        }
-                        if (matrix[row - 1, column] == null)
-                        {
-                            upperLength = 0;
-                        }
-                        else
-                        {
-                            upperLength = matrix[row - 1, column].Length;
-                        }
-
-                        matrix[row, column] = leftLength > upperLength ? matrix[row, column - 1] : matrix[row - 1, column];
-                      //  matrix[row, column] = matrix[row, column-1];
+                        matrix[rowIdx,colIdx]=Math.Max(matrix[rowIdx-1,colIdx],matrix[rowIdx,colIdx-1]);
                     }
                 }
             }
+            //for (rowIdx = 0; rowIdx < rows; ++rowIdx)
+            //{
+            //    for (colIdx = 0; colIdx < columns; ++colIdx)
+            //    {
+            //        Console.Write($"{matrix[rowIdx,colIdx]} ");
+            //    }
+            //    Console.WriteLine();
+            //}
 
-            for (int row = 0; row < lengthOfFirstString; ++row)
+            rowIdx = rows - 1;
+            colIdx = columns - 1;
+            List<char> longestCommonSubsequence = new List<char>();
+            while(matrix[rowIdx,colIdx]!=0)
             {
-                for (int column = 0; column < lengthOfSecondString; ++column)
+                if(firstString[(int)rowIdx-1]==secondString[(int)colIdx-1])
                 {
-                    Console.Write(matrix[row, column] + " ");
+                    longestCommonSubsequence.Add(firstString[(int)rowIdx-1]);
+                    rowIdx -= 1;
+                    colIdx -= 1;
+                    continue;
                 }
-                Console.WriteLine();
+                if(matrix[rowIdx-1,colIdx]>matrix[rowIdx,colIdx-1])
+                {
+                    rowIdx = rowIdx - 1;                   
+                }
+                else
+                {
+                    colIdx = colIdx - 1;
+                }
             }
-
-            return matrix[lengthOfFirstString - 1, lengthOfSecondString - 1];
+            string answer = "";
+            longestCommonSubsequence.Reverse();
+            foreach(char chr in longestCommonSubsequence)
+            {
+                answer += chr.ToString();
+            }
+            return answer;
+            
         }
     }
 }

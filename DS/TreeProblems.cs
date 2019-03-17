@@ -7,12 +7,14 @@ namespace NDS
    
     public class MyTreeNode
     {
+        public MyTreeNode Parent;
         public int Data;
         public MyTreeNode LeftChild;
         public MyTreeNode RightChild;
 
         public MyTreeNode()
         {
+            Parent = null;
             LeftChild = null;
             RightChild = null;
         }
@@ -24,8 +26,25 @@ namespace NDS
         {
             BinaryTree treeOne = new BinaryTree();
             treeOne.Root = treeOne.CreateTree(treeOne.Root);
+            long sumToFind = long.Parse(Console.ReadLine());
+            List<long> answerList = new List<long>();
+            if(GetSumRootToLeaf(treeOne.Root,sumToFind))
+            {
+                foreach (MyTreeNode myTreeNode in RootToLeafSumQueue)
+                {
+                    answerList.Add(myTreeNode.Data);
+                }
+            }
+            answerList.Add(treeOne.Root.Data);
+            answerList.Reverse();
+            foreach(long data in answerList)
+            {
+                Console.Write($"{data} ");
+            }
+            
+          //  DeleteLeafNodes(treeOne.Root);
             //treeOne.Root = treeOne.CreateTreeSecond(treeOne.Root);
-            DepthOrderTraversing(treeOne.Root);
+           // DepthOrderTraversing(treeOne.Root);
            // ShowTopView(treeOne.Root);
             //ShowLeftView(treeOne.Root);
           //  ShowRightView(treeOne.Root);
@@ -36,6 +55,7 @@ namespace NDS
         public static string[] inputString;
         public static int count;
         private static Queue<MyTreeNode> queue;
+        private static Queue<MyTreeNode> RootToLeafSumQueue;
 
         public BinaryTree()
         {
@@ -44,6 +64,7 @@ namespace NDS
             count = 0;
             string input = Console.ReadLine();
             inputString= input.Split(' ');
+            RootToLeafSumQueue = new Queue<MyTreeNode>();
         }
 
         public MyTreeNode CreateTree(MyTreeNode Root)
@@ -70,6 +91,7 @@ namespace NDS
                 int data = int.Parse(inputString[count++]);
                 leftNode.Data = data;
                 Root.LeftChild = leftNode;
+                Root.LeftChild.Parent = Root;
                 CreateTree(leftNode);
 
             }
@@ -84,6 +106,7 @@ namespace NDS
                 int data = int.Parse(inputString[count++]);
                 rightNode.Data = data;
                 Root.RightChild = rightNode;
+                Root.RightChild.Parent = Root;
                 CreateTree(rightNode);
 
             }
@@ -415,28 +438,95 @@ namespace NDS
             }
         }
 
-        public static void GetSumRootToLeaf(MyTreeNode root,long numberToFind)
-        
-{
-            List<long> answerList = new List<long>();
-            long numberLeftToFind = numberToFind = 0;
-            Stack<MyTreeNode> stack = new Stack<MyTreeNode>();
-            MyTreeNode curNode;
-            stack.Push(root);
-            while (stack.Count != 0)
+        public static bool GetSumRootToLeaf(MyTreeNode root,long numberToFind)       
+       {
+            
+           if(numberToFind<root.Data)
             {
-                curNode = stack.Pop();
-                numberLeftToFind = numberLeftToFind - curNode.Data;
-               // if()
-                Console.Write($"{curNode.Data} ");
-                if (curNode.RightChild != null)
+                return false;
+            }
+            if (numberToFind == root.Data)
+            {
+                return true;
+            }
+
+            numberToFind = numberToFind - root.Data;
+           
+            if(root.LeftChild!=null && GetSumRootToLeaf(root.LeftChild, numberToFind))
+            {
+                RootToLeafSumQueue.Enqueue(root.LeftChild);
+              
+                return true;
+            }
+            if(root.RightChild!=null && GetSumRootToLeaf(root.RightChild,numberToFind))
+            {
+                RootToLeafSumQueue.Enqueue(root.RightChild);
+                
+                return true;
+            }
+            
+            return false;
+
+        }
+
+        public static void DeleteLeafNodes(MyTreeNode root)
+        {
+            Queue<MyTreeNode> queue = new Queue<MyTreeNode>();
+            queue.Enqueue(root);
+            while (queue.Count != 0)
+            {
+                MyTreeNode curNode = queue.Dequeue();
+                if(curNode.LeftChild==null&&curNode.RightChild==null)
                 {
-                    stack.Push(curNode.RightChild);
+                    MyTreeNode parentNode = curNode.Parent;
+                    if(parentNode.LeftChild.Data==curNode.Data)
+                    {
+                        parentNode.LeftChild = null;
+                    }
+                    else
+                    {
+                        parentNode.RightChild = null;
+                    }
                 }
+                
                 if (curNode.LeftChild != null)
                 {
-                    stack.Push(curNode.LeftChild);
+                    queue.Enqueue(curNode.LeftChild);
                 }
+                if (curNode.RightChild != null)
+                {
+                    queue.Enqueue(curNode.RightChild);
+                }
+            }
+            queue.Clear();
+          
+            queue.Enqueue(root);
+            while (queue.Count != 0)
+            {
+                MyTreeNode curNode = queue.Dequeue();
+                string answer = "";
+                if(curNode.LeftChild!=null)
+                {
+                    answer += curNode.LeftChild.Data.ToString() + " => ";
+                    queue.Enqueue(curNode.LeftChild);
+                }
+                else
+                {
+                    answer += "END => ";
+                }
+                answer += curNode.Data;
+                if(curNode.RightChild!=null)
+                {
+                    answer += " <= " + curNode.RightChild.Data.ToString();
+                    queue.Enqueue(curNode.RightChild);
+                }
+                else
+                {
+                    answer += " <= END";
+                }
+                Console.WriteLine(answer);
+
+              
             }
         }
 

@@ -8,29 +8,9 @@ namespace DS
     {
         static void Main(string[] args)
         {
-            // Console.WriteLine(Math.Pow(2,100));
-            //StockSpan.main();
-            //RainWaterTrapping.main();
-            //CheckDuplicateParanthesis.main();
-            //  StringSort.main();
-            //GrandTemple.main();
-            //  ChewbaccaNumbers.main();
-            // MaximumSubArray.main();
-            // FormBiggestNumber.main();
-            //RecursionCodesOfTheString.main();
-            //Execute.main();
-            //  MinimumJump.main();
-            // FirstNegativeInteger.main();
-            //UpperBoundLowerBound.main();
-            //MaximumCircularSum.main();
-            // Histogram.main();
-            //MaximumLengthBiotonicArray.main();
-            //OptimalGameStrategy.main();
-            //CountNumberOfBinaryStrings.main();
-            //LongestCommonSubSequence.main();
-            //BinaryTree.main();
-            //Maximum01Array.main();
-            BinarySearchTree.main();
+              BinaryTree.main();
+            
+            //BinarySearchTree.main();
             Console.ReadKey();
         }
     }
