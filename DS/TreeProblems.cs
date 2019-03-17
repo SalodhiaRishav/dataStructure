@@ -23,8 +23,10 @@ namespace NDS
         public static void main()
         {
             BinaryTree treeOne = new BinaryTree();
-            treeOne.Root = treeOne.CreateTreeSecond(treeOne.Root);
-            ShowTopView(treeOne.Root);
+            treeOne.Root = treeOne.CreateTree(treeOne.Root);
+            //treeOne.Root = treeOne.CreateTreeSecond(treeOne.Root);
+            DepthOrderTraversing(treeOne.Root);
+           // ShowTopView(treeOne.Root);
             //ShowLeftView(treeOne.Root);
           //  ShowRightView(treeOne.Root);
             //treeOne.ZigZagTraversing(treeOne.Root);
@@ -392,6 +394,53 @@ namespace NDS
             }
 
         }
+
+        public static void DepthOrderTraversing(MyTreeNode root)
+        {
+            Stack<MyTreeNode> stack = new Stack<MyTreeNode>();
+            MyTreeNode curNode;
+            stack.Push(root);
+            while(stack.Count!=0)
+            {
+                curNode = stack.Pop();
+                Console.Write($"{curNode.Data} ");
+                if(curNode.RightChild!=null)
+                {
+                    stack.Push(curNode.RightChild);
+                }
+                if(curNode.LeftChild!=null)
+                {
+                    stack.Push(curNode.LeftChild);
+                }
+            }
+        }
+
+        public static void GetSumRootToLeaf(MyTreeNode root,long numberToFind)
+        
+{
+            List<long> answerList = new List<long>();
+            long numberLeftToFind = numberToFind = 0;
+            Stack<MyTreeNode> stack = new Stack<MyTreeNode>();
+            MyTreeNode curNode;
+            stack.Push(root);
+            while (stack.Count != 0)
+            {
+                curNode = stack.Pop();
+                numberLeftToFind = numberLeftToFind - curNode.Data;
+               // if()
+                Console.Write($"{curNode.Data} ");
+                if (curNode.RightChild != null)
+                {
+                    stack.Push(curNode.RightChild);
+                }
+                if (curNode.LeftChild != null)
+                {
+                    stack.Push(curNode.LeftChild);
+                }
+            }
+        }
+
+        
 
 
     }

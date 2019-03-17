@@ -29,7 +29,8 @@ namespace DS
             //CountNumberOfBinaryStrings.main();
             //LongestCommonSubSequence.main();
             //BinaryTree.main();
-            Maximum01Array.main();
+            //Maximum01Array.main();
+            BinarySearchTree.main();
             Console.ReadKey();
         }
     }
