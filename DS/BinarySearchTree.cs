@@ -18,26 +18,45 @@ namespace DS
             RightChild = null;
         }
     }
-   public class BinarySearchTree
+    public class BinarySearchTree
     {
         public static void main()
         {
-                     BinarySearchTree bst = new BinarySearchTree();
-                long numberOfNodes = long.Parse(Console.ReadLine());
-                string[] input = Console.ReadLine().Split(' ');
-                for (long i = 0; i < numberOfNodes; ++i)
+            BinarySearchTree bst = new BinarySearchTree();
+
+            long numberOfNodes = long.Parse(Console.ReadLine());
+            //string[] input=new string[numberOfNodes];
+            //try { 
+
+            //     input= Console.ReadLine().Split(' ');
+            //    for (long i = 0; i < numberOfNodes; ++i)
+            //    {
+            //        long data = long.Parse(input[i]);
+            //        bst.AddNewNode(data);
+            //    }
+            //}
+            //catch(Exception)
+            //{
+              
+                for(long i = 0; i < numberOfNodes; ++i)
                 {
-                    long data = long.Parse(input[i]);
+                    long data = long.Parse(Console.ReadLine());
                     bst.AddNewNode(data);
                 }
-            bst.GetMedianOfBST(numberOfNodes);
-           // bst.InOrderTraverseMorisApproach();
-           
+
+            long sumToFind = long.Parse(Console.ReadLine());
+            bst.PairSumInBST(sumToFind, bst.Root);
+           // }
+
+
+           // bst.GetMedianOfBST(numberOfNodes);
+            // bst.InOrderTraverseMorisApproach();
+
         }
 
-       public BinarySearchTreeNode Root;
+        public BinarySearchTreeNode Root;
 
-       public BinarySearchTree()
+        public BinarySearchTree()
         {
             Root = null;
         }
@@ -47,22 +66,22 @@ namespace DS
             BinarySearchTreeNode newNode = new BinarySearchTreeNode();
             newNode.Data = data;
 
-            if (Root==null)
+            if (Root == null)
             {
                 Root = new BinarySearchTreeNode();
                 Root.Data = data;
                 return;
-            }          
+            }
 
             BinarySearchTreeNode currentNode = Root;
             while (true)
             {
-               
+
                 if (data < currentNode.Data)
                 {
-                    if(currentNode.LeftChild==null)
+                    if (currentNode.LeftChild == null)
                     {
-                        
+
                         currentNode.LeftChild = newNode;
                         currentNode.LeftChild.ParentNode = currentNode;
                         return;
@@ -103,16 +122,16 @@ namespace DS
             }
         }
 
-        public  BinarySearchTreeNode FindNode(long dataToFind,BinarySearchTreeNode root)
+        public BinarySearchTreeNode FindNode(long dataToFind, BinarySearchTreeNode root)
         {
             BinarySearchTreeNode curNode = root;
-            while(curNode!=null)
+            while (curNode != null)
             {
-                if(curNode.Data==dataToFind)
+                if (curNode.Data == dataToFind)
                 {
                     return curNode;
                 }
-                else if(dataToFind < curNode.Data)
+                else if (dataToFind < curNode.Data)
                 {
                     curNode = curNode.LeftChild;
                 }
@@ -124,18 +143,18 @@ namespace DS
             return null;
         }
 
-        public  BinarySearchTreeNode getLowestCommonAncestor(long data1,long data2)
+        public BinarySearchTreeNode getLowestCommonAncestor(long data1, long data2)
         {
             Stack<BinarySearchTreeNode> stack = new Stack<BinarySearchTreeNode>();
             BinarySearchTreeNode curNode = Root;
-            while(true)
+            while (true)
             {
                 stack.Push(curNode);
-                if (curNode.Data==data1)
-                {                  
+                if (curNode.Data == data1)
+                {
                     break;
                 }
-                else if(curNode.Data<data1)
+                else if (curNode.Data < data1)
                 {
                     curNode = curNode.RightChild;
                 }
@@ -145,23 +164,23 @@ namespace DS
                 }
             }
 
-            while(stack.Count!=0)
+            while (stack.Count != 0)
             {
                 curNode = stack.Pop();
-                if(FindNode(data2,curNode)!=null)
+                if (FindNode(data2, curNode) != null)
                 {
                     return curNode;
-                }               
+                }
             }
             return null;
-            
+
         }
 
         public void DeleteNode(long dataToDelete)
         {
-            BinarySearchTreeNode nodeToDelete = FindNode(dataToDelete,Root);
+            BinarySearchTreeNode nodeToDelete = FindNode(dataToDelete, Root);
             BinarySearchTreeNode parent = nodeToDelete.ParentNode;
-            if (nodeToDelete.LeftChild==null && nodeToDelete.RightChild==null)
+            if (nodeToDelete.LeftChild == null && nodeToDelete.RightChild == null)
             {
                 if (parent.LeftChild.Data == nodeToDelete.Data)
                 {
@@ -171,14 +190,14 @@ namespace DS
                 }
                 else
                 {
-                    parent.RightChild=null;
+                    parent.RightChild = null;
                 }
                 return;
             }
 
-            if(nodeToDelete.LeftChild==null)
+            if (nodeToDelete.LeftChild == null)
             {
-                
+
                 nodeToDelete.RightChild.ParentNode = nodeToDelete.ParentNode;
                 if (parent.LeftChild.Data == nodeToDelete.Data)
                 {
@@ -192,10 +211,10 @@ namespace DS
                 }
                 return;
             }
-           
-            if(nodeToDelete.RightChild==null)
+
+            if (nodeToDelete.RightChild == null)
             {
-              
+
                 nodeToDelete.LeftChild.ParentNode = nodeToDelete.ParentNode;
                 if (parent.LeftChild.Data == nodeToDelete.Data)
                 {
@@ -210,7 +229,7 @@ namespace DS
             }
 
             BinarySearchTreeNode curNode = nodeToDelete.LeftChild;
-            while(curNode.RightChild!=null)
+            while (curNode.RightChild != null)
             {
                 curNode = curNode.RightChild;
             }
@@ -222,7 +241,7 @@ namespace DS
         public void InOrderTraverseMorisApproach()
         {
             BinarySearchTreeNode curNode = Root;
-            while(curNode!=null)
+            while (curNode != null)
             {
                 if (curNode.LeftChild == null)
                 {
@@ -233,12 +252,12 @@ namespace DS
                 {
                     BinarySearchTreeNode rightMostNodeInLeftSubTree = curNode.LeftChild;
 
-                    while(rightMostNodeInLeftSubTree.RightChild!=null&&rightMostNodeInLeftSubTree.RightChild!=curNode)
+                    while (rightMostNodeInLeftSubTree.RightChild != null && rightMostNodeInLeftSubTree.RightChild != curNode)
                     {
-                        rightMostNodeInLeftSubTree= rightMostNodeInLeftSubTree.RightChild;
+                        rightMostNodeInLeftSubTree = rightMostNodeInLeftSubTree.RightChild;
                     }
 
-                    if(rightMostNodeInLeftSubTree.RightChild==null)
+                    if (rightMostNodeInLeftSubTree.RightChild == null)
                     {
                         rightMostNodeInLeftSubTree.RightChild = curNode;
                         curNode = curNode.LeftChild;
@@ -251,13 +270,13 @@ namespace DS
                     }
                 }
             }
-           
-           
+
+
         }
 
         public void GetMedianOfBST(long numberOfNodes)
         {
-            if(numberOfNodes==1)
+            if (numberOfNodes == 1)
             {
                 Console.WriteLine(Root.Data);
                 return;
@@ -265,9 +284,9 @@ namespace DS
             long firstMedian = 0;
             long secondMedian = 0;
 
-               long medianNodeCountFirst = numberOfNodes/2;
-               long medianNodeCountSecond = medianNodeCountFirst+ 1;
-            
+            long medianNodeCountFirst = numberOfNodes / 2;
+            long medianNodeCountSecond = medianNodeCountFirst + 1;
+
 
 
             BinarySearchTreeNode curNode = Root;
@@ -276,7 +295,7 @@ namespace DS
                 if (curNode.LeftChild == null)
                 {
                     medianNodeCountSecond--;
-                    if(medianNodeCountSecond==0)
+                    if (medianNodeCountSecond == 0)
                     {
                         secondMedian = curNode.Data;
                         break;
@@ -315,13 +334,13 @@ namespace DS
                         {
                             firstMedian = curNode.Data;
                         }
-                        
+
                         curNode = curNode.RightChild;
                     }
                 }
             }
 
-            if(numberOfNodes%2==0)
+            if (numberOfNodes % 2 == 0)
             {
                 Console.WriteLine((firstMedian + secondMedian) / 2);
             }
@@ -333,7 +352,35 @@ namespace DS
 
         }
 
+        public void PairSumInBST(long sumToFind,BinarySearchTreeNode root)
+        {
+            if(root == null)
+            {
+                return;
+            }
+            
+            long tempSumToFind = sumToFind - root.Data;
+            if(tempSumToFind<root.Data)
+            {
+                if (FindNode(tempSumToFind, root.LeftChild) != null)
+                {
+                    Console.WriteLine($"{root.Data} {tempSumToFind}");
+                }
+            }
+            else
+            {
+                if (FindNode(tempSumToFind, root.RightChild) != null)
+                {
+                    Console.WriteLine($"{root.Data} {tempSumToFind}");
+                }
+            }
+            PairSumInBST(sumToFind, root.LeftChild);
+            PairSumInBST(sumToFind, root.RightChild);
+            return;
+            
+        }
+
     }
 
-    
+
 }

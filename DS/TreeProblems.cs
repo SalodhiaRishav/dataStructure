@@ -28,7 +28,11 @@ namespace NDS
             BinaryTree treeOne = new BinaryTree();
             //treeOne.Root = treeOne.CreateTree(treeOne.Root);
             treeOne.Root = treeOne.CreateTreeSecond(treeOne.Root);
-            ShowLeftView(treeOne.Root);
+            if (treeOne.Root == null)
+            {
+                return;
+            }
+            ShowTopView(treeOne.Root);
           //  VerticalOrderTraversing(treeOne.Root);
                        
         }
@@ -45,7 +49,7 @@ namespace NDS
             Root = null;
             count = 0;
             string input = Console.ReadLine();
-            inputString= input.Split(' ');
+            inputString= input.Split(' ',StringSplitOptions.RemoveEmptyEntries);
             RootToLeafSumQueue = new Queue<MyTreeNode>();
         }
 
@@ -245,6 +249,10 @@ namespace NDS
 
         public MyTreeNode CreateTreeSecond(MyTreeNode root)
         {
+            if(inputString.Length==0)
+            {
+                return null;
+            }
             
             int data = 0;
             if(root==null)
