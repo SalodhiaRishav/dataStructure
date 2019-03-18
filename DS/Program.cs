@@ -8,11 +8,11 @@ namespace DS
     {
         static void Main(string[] args)
         {
-            //   BinaryTree.main();
-
-            //BinarySearchTree.main();
+            // BinaryTree.main();
+            AggressiveCows.main();
+         //  BinarySearchTree.main();
             // BookAllocation.main();
-            SubsetSumEasy.main();
+            //SubsetSumEasy.main();
             Console.ReadKey();
         }
     }

@@ -22,11 +22,7 @@ namespace DS
     {
         public static void main()
         {
-            long testCases = long.Parse(Console.ReadLine());
-            while (testCases > 0)
-            {
-
-                BinarySearchTree bst = new BinarySearchTree();
+                     BinarySearchTree bst = new BinarySearchTree();
                 long numberOfNodes = long.Parse(Console.ReadLine());
                 string[] input = Console.ReadLine().Split(' ');
                 for (long i = 0; i < numberOfNodes; ++i)
@@ -34,19 +30,8 @@ namespace DS
                     long data = long.Parse(input[i]);
                     bst.AddNewNode(data);
                 }
-                bst.LevelOrderTraversing();
-                long numberOfDeletion = long.Parse(Console.ReadLine());
-                string[] input2 = Console.ReadLine().Split(' ');
-                for (long i = 0; i < numberOfDeletion; ++i)
-                {
-                    long data = long.Parse(input2[i]);
-                    bst.DeleteNode(data);
-                }
-               
-                
-                bst.LevelOrderTraversing();
-                testCases--;
-            }
+            bst.GetMedianOfBST(numberOfNodes);
+           // bst.InOrderTraverseMorisApproach();
            
         }
 
@@ -232,6 +217,120 @@ namespace DS
             long datas = curNode.Data;
             this.DeleteNode(datas);
             nodeToDelete.Data = datas;
+        }
+
+        public void InOrderTraverseMorisApproach()
+        {
+            BinarySearchTreeNode curNode = Root;
+            while(curNode!=null)
+            {
+                if (curNode.LeftChild == null)
+                {
+                    Console.Write($"{curNode.Data} ");
+                    curNode = curNode.RightChild;
+                }
+                else
+                {
+                    BinarySearchTreeNode rightMostNodeInLeftSubTree = curNode.LeftChild;
+
+                    while(rightMostNodeInLeftSubTree.RightChild!=null&&rightMostNodeInLeftSubTree.RightChild!=curNode)
+                    {
+                        rightMostNodeInLeftSubTree= rightMostNodeInLeftSubTree.RightChild;
+                    }
+
+                    if(rightMostNodeInLeftSubTree.RightChild==null)
+                    {
+                        rightMostNodeInLeftSubTree.RightChild = curNode;
+                        curNode = curNode.LeftChild;
+                    }
+                    else
+                    {
+                        rightMostNodeInLeftSubTree.RightChild = null;
+                        Console.Write($"{curNode.Data} ");
+                        curNode = curNode.RightChild;
+                    }
+                }
+            }
+           
+           
+        }
+
+        public void GetMedianOfBST(long numberOfNodes)
+        {
+            if(numberOfNodes==1)
+            {
+                Console.WriteLine(Root.Data);
+                return;
+            }
+            long firstMedian = 0;
+            long secondMedian = 0;
+
+               long medianNodeCountFirst = numberOfNodes/2;
+               long medianNodeCountSecond = medianNodeCountFirst+ 1;
+            
+
+
+            BinarySearchTreeNode curNode = Root;
+            while (curNode != null)
+            {
+                if (curNode.LeftChild == null)
+                {
+                    medianNodeCountSecond--;
+                    if(medianNodeCountSecond==0)
+                    {
+                        secondMedian = curNode.Data;
+                        break;
+                    }
+                    else
+                    {
+                        firstMedian = curNode.Data;
+                    }
+                    curNode = curNode.RightChild;
+                    medianNodeCountFirst--;
+                }
+                else
+                {
+                    BinarySearchTreeNode rightMostNodeInLeftSubTree = curNode.LeftChild;
+
+                    while (rightMostNodeInLeftSubTree.RightChild != null && rightMostNodeInLeftSubTree.RightChild != curNode)
+                    {
+                        rightMostNodeInLeftSubTree = rightMostNodeInLeftSubTree.RightChild;
+                    }
+
+                    if (rightMostNodeInLeftSubTree.RightChild == null)
+                    {
+                        rightMostNodeInLeftSubTree.RightChild = curNode;
+                        curNode = curNode.LeftChild;
+                    }
+                    else
+                    {
+                        rightMostNodeInLeftSubTree.RightChild = null;
+                        medianNodeCountSecond--;
+                        if (medianNodeCountSecond == 0)
+                        {
+                            secondMedian = curNode.Data;
+                            break;
+                        }
+                        else
+                        {
+                            firstMedian = curNode.Data;
+                        }
+                        
+                        curNode = curNode.RightChild;
+                    }
+                }
+            }
+
+            if(numberOfNodes%2==0)
+            {
+                Console.WriteLine((firstMedian + secondMedian) / 2);
+            }
+            else
+            {
+                Console.WriteLine(secondMedian);
+            }
+
+
         }
 
     }

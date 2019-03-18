@@ -28,7 +28,8 @@ namespace NDS
             BinaryTree treeOne = new BinaryTree();
             //treeOne.Root = treeOne.CreateTree(treeOne.Root);
             treeOne.Root = treeOne.CreateTreeSecond(treeOne.Root);
-            VerticalOrderTraversing(treeOne.Root);
+            ShowLeftView(treeOne.Root);
+          //  VerticalOrderTraversing(treeOne.Root);
                        
         }
         public MyTreeNode Root;
