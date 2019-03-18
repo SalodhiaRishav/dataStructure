@@ -7,7 +7,7 @@ namespace NDS
    
     public class MyTreeNode
     {
-        public MyTreeNode Parent;
+        public MyTreeNode Parent;       
         public int Data;
         public MyTreeNode LeftChild;
         public MyTreeNode RightChild;
@@ -22,33 +22,13 @@ namespace NDS
 
     public class BinaryTree
     {
+        public static Dictionary<long, List<MyTreeNode>> horizentalDistances;
         public static void main()
         {
             BinaryTree treeOne = new BinaryTree();
-            treeOne.Root = treeOne.CreateTree(treeOne.Root);
-            long sumToFind = long.Parse(Console.ReadLine());
-            List<long> answerList = new List<long>();
-            if(GetSumRootToLeaf(treeOne.Root,sumToFind))
-            {
-                foreach (MyTreeNode myTreeNode in RootToLeafSumQueue)
-                {
-                    answerList.Add(myTreeNode.Data);
-                }
-            }
-            answerList.Add(treeOne.Root.Data);
-            answerList.Reverse();
-            foreach(long data in answerList)
-            {
-                Console.Write($"{data} ");
-            }
-            
-          //  DeleteLeafNodes(treeOne.Root);
-            //treeOne.Root = treeOne.CreateTreeSecond(treeOne.Root);
-           // DepthOrderTraversing(treeOne.Root);
-           // ShowTopView(treeOne.Root);
-            //ShowLeftView(treeOne.Root);
-          //  ShowRightView(treeOne.Root);
-            //treeOne.ZigZagTraversing(treeOne.Root);
+            //treeOne.Root = treeOne.CreateTree(treeOne.Root);
+            treeOne.Root = treeOne.CreateTreeSecond(treeOne.Root);
+            VerticalOrderTraversing(treeOne.Root);
                        
         }
         public MyTreeNode Root;
@@ -59,6 +39,7 @@ namespace NDS
 
         public BinaryTree()
         {
+            horizentalDistances = new Dictionary<long, List<MyTreeNode>>();
              queue = new Queue<MyTreeNode>();
             Root = null;
             count = 0;
@@ -530,6 +511,39 @@ namespace NDS
             }
         }
 
+        public static void GetHorizentalDistances(MyTreeNode root,long horizentalDistance)
+        {
+            if(root==null)
+            {
+                return;
+            }
+            if(!horizentalDistances.ContainsKey(horizentalDistance))
+            {
+                horizentalDistances[horizentalDistance] = new List<MyTreeNode>();
+            }
+             
+                horizentalDistances[horizentalDistance].Add(root);
+            
+            GetHorizentalDistances(root.LeftChild, horizentalDistance - 1);
+            GetHorizentalDistances(root.RightChild, horizentalDistance + 1);
+        }
+
+        public static void VerticalOrderTraversing(MyTreeNode root)
+        {
+            GetHorizentalDistances(root, 0);
+            List<long> mapKeys = new List<long>();
+            foreach (KeyValuePair<long, List<MyTreeNode>> kvp in horizentalDistances)
+            {
+                mapKeys.Add(kvp.Key);        
+            }
+            mapKeys.Sort();
+            foreach(long key in mapKeys)
+            {
+               
+                Console.Write($"{horizentalDistances[key][0].Data} ");
+            }
+
+        }
         
 
 
