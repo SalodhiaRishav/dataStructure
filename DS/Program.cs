@@ -8,7 +8,7 @@ namespace DS
     {
         static void Main(string[] args)
         {
-            //BinaryTree.main();
+            BinaryTree.main();
 
             // BinarySearchTree.main();
 

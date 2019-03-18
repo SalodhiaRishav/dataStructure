@@ -27,13 +27,8 @@ namespace NDS
         {
             BinaryTree treeOne = new BinaryTree();
             //treeOne.Root = treeOne.CreateTree(treeOne.Root);
-            treeOne.Root = treeOne.CreateTreeSecond(treeOne.Root);
-            if (treeOne.Root == null)
-            {
-                return;
-            }
-            ShowTopView(treeOne.Root);
-          //  VerticalOrderTraversing(treeOne.Root);
+            treeOne.Root = treeOne.CreateTree(treeOne.Root);
+            DeleteLeafNodes(treeOne.Root);
                        
         }
         public MyTreeNode Root;
@@ -49,7 +44,7 @@ namespace NDS
             Root = null;
             count = 0;
             string input = Console.ReadLine();
-            inputString= input.Split(' ',StringSplitOptions.RemoveEmptyEntries);
+            inputString= input.Split(new char[] {' '},StringSplitOptions.RemoveEmptyEntries);
             RootToLeafSumQueue = new Queue<MyTreeNode>();
         }
 
@@ -461,6 +456,11 @@ namespace NDS
 
         public static void DeleteLeafNodes(MyTreeNode root)
         {
+            if(root.LeftChild==null&&root.RightChild==null)
+            {
+                Console.WriteLine($"END => {root.Data} <= END");
+                return;
+            }
             Queue<MyTreeNode> queue = new Queue<MyTreeNode>();
             queue.Enqueue(root);
             while (queue.Count != 0)
@@ -469,7 +469,7 @@ namespace NDS
                 if(curNode.LeftChild==null&&curNode.RightChild==null)
                 {
                     MyTreeNode parentNode = curNode.Parent;
-                    if(parentNode.LeftChild.Data==curNode.Data)
+                    if(parentNode.LeftChild!=null&&parentNode.LeftChild.Data==curNode.Data)
                     {
                         parentNode.LeftChild = null;
                     }
