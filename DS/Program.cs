@@ -12,7 +12,7 @@ namespace DS
 
             // BinarySearchTree.main();
 
-            HeapMain.main();
+           // HeapMain.main();
             Console.ReadKey();
         }
     }

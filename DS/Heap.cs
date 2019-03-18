@@ -22,9 +22,9 @@ namespace DS
                     myHeap.InsertNode(long.Parse(input[(int)idx]), heapIdx);
                 }
             }
-            
-            
 
+            myHeap.PrintAscendingSortHeap();
+            
         }
     }
 
@@ -95,13 +95,18 @@ namespace DS
 
         public long DeleteNode()
         {
-
+            if(HeapArray.Count==1)
+            {
+                return HeapArray[0];
+            }
             long deletedNode = this.TopNode();
             HeapArray[0] = HeapArray[(int)TotalElements - 1];
-            HeapArray.RemoveAt((int)TotalElements - 1);
-            TotalElements--;
+           
+           
             long parentIdx = 0;
             long elementToMove = HeapArray[(int)parentIdx];
+            HeapArray.RemoveAt((int)TotalElements - 1);
+            TotalElements--;
             while (true)
             {
                 long leftChildIdx = getIndexOfLeftChild(parentIdx);
@@ -179,6 +184,14 @@ namespace DS
             return deletedNode;
         }
 
+        public void PrintAscendingSortHeap()
+        {
+            long end = TotalElements;
+            for(long idx=0;idx<end;++idx)
+            {
+                Console.Write($"{this.DeleteNode()} ");
+            }
+        }
         
 
     }
