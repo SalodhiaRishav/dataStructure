@@ -9,7 +9,7 @@ namespace DS
         public static void main()
         {
             string input = Console.ReadLine();
-            if(CheckTheDuplicateParanthesis(input))
+            if(CheckTheDuplicateParanthesis2(input))
             {
                 Console.WriteLine("true");
             }
@@ -20,51 +20,38 @@ namespace DS
            
         }
 
-        public static bool CheckTheDuplicateParanthesis(string inputs)
+     
+        public static bool CheckTheDuplicateParanthesis2(string input)
         {
-
-            int length = inputs.Length;
-            char[] array = inputs.ToCharArray();
-            Stack<char> stack = new Stack<char>();
-            stack.Push('*');
-
-            for(int i = 0;i<length;++i)
-            {
-                if(array[i]=='(')
+           
+                int length = input.Length;
+                Stack<char> stack = new Stack<char>();
+                for (int idx = 0; idx < length; ++idx)
                 {
-                    stack.Push(array[i]);
-                }
-                else if(array[i]!=')'&&stack.Peek()=='(')
-                {
-                    stack.Push(array[i]);
-                }
-                else if(array[i]==')')
-                {
-                    if(stack.Peek()=='*')
+                    if (input[idx] == ')')
                     {
-                        return false;
+                        long count = 0;
+                        char topElement = stack.Pop();
+                        while (topElement != '(')
+                        {
+                            topElement = stack.Pop();
+                            count++;
+                        }
+                        if (count <= 1)
+                        {
+                            return true;
+                        }
                     }
                     else
                     {
-                        stack.Pop();
-                        if (stack.Peek() == '*')
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            stack.Pop();     
-                            if(stack.Peek()=='(')
-                            {
-                                return true;
-                            }
-                        }
+                        stack.Push(input[idx]);
                     }
 
-                }
+               
             }
-
             return false;
+
+
         }
     }
 }
